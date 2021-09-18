@@ -24,9 +24,8 @@ DNA_SIZE = 10            # DNA length
 POP_SIZE = 100           # population size
 CROSS_RATE = 0.8         # mating probability (DNA crossover)
 MUTATION_RATE = 0.003    # mutation probability
-N_GENERATIONS = 10      # generation number
+N_GENERATIONS = 300      # generation number
 X_BOUND = [0, 5]         # k,b upper and lower bounds
-
 
 
 x1y1_mv = []
@@ -55,13 +54,13 @@ def F(sc_v, dc_v):
         centre_of_mass.append(B)
 
     result = (centre_of_mass[-1] - centre_of_mass[0]) / stop_time  # average speed in x-axis
-
+    # print(result)
     return result    # to find the maximum of this function
 
 
 # find non-zero fitness for selection
 def get_fitness(pred):
-    return pred + 1e-3 - np.min(pred)
+    return pred + 1e-6 - np.min(pred)
 
 
 # convert binary DNA to decimal and normalize it to a range(0, 5)
@@ -79,7 +78,7 @@ def select(pop, fitness):    # nature selection wrt pop's fitness
 def crossover(parent, pop):     # mating process (genes crossover)
     if np.random.rand() < CROSS_RATE:
         i_ = np.random.randint(0, POP_SIZE, size=1)                             # select another individual from pop
-        cross_points = np.random.randint(0, 2, size=2*DNA_SIZE).astype(np.bool)   # choose crossover points
+        cross_points = np.random.randint(0, 2, size=2*DNA_SIZE).astype(np.bool_)   # choose crossover points
         parent[cross_points] = pop[i_, cross_points]                            # mating and produce one child
     return parent
 
@@ -98,12 +97,15 @@ pop_b = pop[:, DNA_SIZE:]
 
 
 HAHA = []
-HAHA = np.array(HAHA)
+# HAHA = np.array(HAHA)
 # TL = np.zeros((1, 1))
 # FA = np.zeros((1, 1))
 k_drwaing = []
 b_drawing = []
 fit_drawing = []
+
+
+
 
 
 for _ in range(N_GENERATIONS):
@@ -116,14 +118,23 @@ for _ in range(N_GENERATIONS):
         HAHA = np.append(HAHA, F_values)
         # print(HAHA)
         # HAHA = np.append(F_values, i)
-    print("GENERATIONS: %s" %_, 'Progress:{:.2%}'.format(_/N_GENERATIONS))
+    print('-------------------------------------------------------------')
+    print("GENERATIONS: %s" %_, 'Progress:{:.2%}'.format(_/(N_GENERATIONS)))
 
     # GA part (evolution)
     fitness = get_fitness(HAHA)
+    # print(fitness)
+    # print(np.max(HAHA))
+    fit_drawing.append(np.max(fitness*10))
+    # print(np.max(fitness))
+    # print(fit_drawing)
+
     print("Most fitted DNA: ", pop[np.argmax(fitness), :])
-    print("K: ", translateDNA(pop[np.argmax(fitness), :][:10]))
-    print("B: ", translateDNA(pop[np.argmax(fitness), :][10:]))
+    print("K: ", translateDNA(pop[np.argmax(fitness), :][:DNA_SIZE]))
+    print("B: ", translateDNA(pop[np.argmax(fitness), :][DNA_SIZE:]))
     pop = select(pop, fitness)
+    pop_k = pop[:, :DNA_SIZE]
+    pop_b = pop[:, DNA_SIZE:]
     pop_copy = pop.copy()
     for parent in pop:
         child = crossover(parent, pop_copy)
@@ -132,10 +143,11 @@ for _ in range(N_GENERATIONS):
 
     k_drwaing.append(translateDNA(pop[np.argmax(fitness), :][:10]))
     b_drawing.append(translateDNA(pop[np.argmax(fitness), :][10:]))
-    fit_drawing.append(np.argmax(fitness))
+    # fit_drawing.append(np.argmax(fitness))
+
+    # print(fit_drawing)
 
 
-# saving
 np.save('k_drwaing.npy',k_drwaing)
 np.save('b_drawing.npy',b_drawing)
 np.save('fit_drawing.npy',fit_drawing)
@@ -150,7 +162,7 @@ fig, ax = plt.subplots(1, 1)
 ax_sub = ax.twinx()
 # x-axis values
 x = np.arange(0,len(list1))+1
-x[0] = 1
+# x[0] = 1
 l1, = ax.plot(x,list1,label='k',marker='o')
 l2, = ax.plot(x,list2,label='b',marker='o')
 l3, = ax_sub.plot(x,list3,label='fitness',marker='o',color='g')

@@ -30,7 +30,6 @@ class AddForce:
         self.c1 = c1
         self.c2 = c2
 
-t = 0
 
 def ft(t, f, c1, c2):
     fx = c1 * f(t) + c2
@@ -68,6 +67,7 @@ def xsecd(px1, px2, px3, vx1, spring1, spring2, part, force1, force2, cos1, cos2
             + ft(t, force2.f, force2.c1, force2.c2) * cos2
             ) / part.m
     return fx
+
 
 # def calculator(spring_1, spring_2, spring_3, particle1, particle2, particle3, ad_fo1, ad_fo2): # S12 S23 S13
 
@@ -108,6 +108,7 @@ def xsecd(px1, px2, px3, vx1, spring1, spring2, part, force1, force2, cos1, cos2
     #             ) / part.m
     #     return fx
 
+
 class cal():
     def __init__(self, spring_1, spring_2, spring_3, particle1, particle2, particle3, ad_fo1, ad_fo2):
         self.spring_1 = spring_1
@@ -118,6 +119,7 @@ class cal():
         self.particle3 = particle3
         self.ad_fo1 = ad_fo1
         self.ad_fo2 = ad_fo2
+
 
 def calculator(spring_1, spring_2, spring_3, particle1, particle2, particle3, ad_fo1, ad_fo2):
         def func(t, r):
@@ -146,6 +148,7 @@ def calculator(spring_1, spring_2, spring_3, particle1, particle2, particle3, ad
                     fx1s = fx1s - abs(fy1s * pa.f)
                 else:
                     fx1s = 0
+
 
     ########################################## x2 y2
             sin21 = sina(px2, py2, px1, py1)

@@ -24,8 +24,8 @@ DNA_SIZE = 10            # DNA length
 POP_SIZE = 100           # population size
 CROSS_RATE = 0.8         # mating probability (DNA crossover)
 MUTATION_RATE = 0.003    # mutation probability
-N_GENERATIONS = 300      # generation number
-X_BOUND = [0, 5]         # k,b upper and lower bounds
+N_GENERATIONS = 100      # generation number
+X_BOUND = [0, 8]         # k,b upper and lower bounds
 
 
 x1y1_mv = []
@@ -125,7 +125,8 @@ for _ in range(N_GENERATIONS):
     fitness = get_fitness(HAHA)
     # print(fitness)
     # print(np.max(HAHA))
-    fit_drawing.append(np.max(fitness*10))
+    fit_drawing.append(np.max(fitness))
+    # fit_drawing.append(fitness.sum()/len(fitness))
     # print(np.max(fitness))
     # print(fit_drawing)
 

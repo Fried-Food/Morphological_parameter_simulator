@@ -210,15 +210,20 @@ def ad_force(var, fun, a1, a2, a3):
     return force
 
 
-mass = 1.8
-k = 4   # spring_coefficient
-b = 0.2  # damping_coefficient
-
+mass = 1
+k = 0.5   # spring_coefficient
+b = 0.8  # damping_coefficient
+a1 = 20
+a2 = 1
+a3 = 4
+an = -math.pi / 3
+le = 40
+h = 50
 
 # P1 = Particle(0, 50, mass)  # X, Y, mass
 # P2 = Particle(20, 20, mass)
 # P3 = Particle(40, 50, mass)
-POS = initpos(0, 50, 40, -math.pi/3)  # x, y, edge_length, rot angle(rad)
+POS = initpos(0, h, le, an)  # x, y, edge_length, rot angle(rad)
 P1 = Particle(POS[0], POS[1], mass)  # X, Y, mass
 P2 = Particle(POS[2], POS[3], mass)
 P3 = Particle(POS[4], POS[5], mass)
@@ -247,7 +252,7 @@ centre_of_mass = []
 
 for i in t:
     # additional force
-    S12.input_force = 50 * math.sin(5*i)
+    S12.input_force = ad_force(i, math.sin, a1, a2, a3)
     # S12.input_force = ad_force(i, math.sin, 50, 2, 0)
     x1y1.append(coordinate(S12, S13, P1))
     x2y2.append(coordinate(S12, S23, P2))

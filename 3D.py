@@ -84,15 +84,18 @@ centre_of_mass = []
 V_ms = []
 x1y1_mv = []
 av_x = []
-for a1 in a1R:
-    for a2 in a2R:
-        for a3 in a3R:
-            m = 1
-            dc_v = 0.8
-            sc_v = 2.8
+for m in mass:
+    for sc_v in spring_coefficient:
+        for dc_v in damping_coefficient:
+            # m = 1
+            # dc_v = 0.8
+            # sc_v = 2.8
             an = -math.pi / 3
             le = 40
             h = 50
+            a1 = 20
+            a2 = 1
+            a3 = 0
 
             POS = initpos(0, h, le, an)  # x, y, edge_length, rot angle(rad)
             P1 = Particle(POS[0], POS[1], m)  # X, Y, mass
@@ -113,10 +116,10 @@ for a1 in a1R:
                 B = 1/3 * (P1.x + P2.x + P3.x)
                 centre_of_mass.append(B)
             av_x.append((centre_of_mass[-1] - centre_of_mass[0])/stop_time)
-            mass_plot.append(a1)
-            k_plot.append(a2)
-            b_plot.append(a3)
-    print("Progress: %s" % a1)
+            mass_plot.append(m)
+            k_plot.append(sc_v)
+            b_plot.append(dc_v)
+    # print("Progress: %s" % m)
 
 
 fig = plt.figure()
@@ -129,9 +132,9 @@ cm = plt.cm.get_cmap('jet')
 fig = ax.scatter3D(X, Y, Z, c=AV, cmap=cm)
 
 cb = plt.colorbar(fig)
-ax.set_xlabel('a1')
-ax.set_ylabel('a2')
-ax.set_zlabel('a3')
+ax.set_xlabel('mass (kg)')
+ax.set_ylabel('k (N/mm)')
+ax.set_zlabel('b N/(mm/s)')
 cb.ax.tick_params(labelsize=12)
 cb.set_label('Average velocity along X-axis (mm/s)', size=14)
 

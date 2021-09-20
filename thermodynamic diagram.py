@@ -80,16 +80,17 @@ centre_of_mass = []
 V_ms = []
 x1y1_mv = []
 av_x = []
-for sc_v in spring_coefficient:
-    for a3 in a3R:
+for dc_v in damping_coefficient:
+    for sc_v in spring_coefficient:
         m = 1
-        dc_v = 0.8
+        # dc_v = 0.8
         # sc_v = 2.8
         an = -math.pi / 3
         le = 40
         h = 50
         a2 = 1
         a1 = 20
+        a3 = 0
         POS = initpos(0, h, le, -math.pi / 3)  # x, y, edge_length, rot angle(rad)
         P1 = Particle(POS[0], POS[1], m)  # X, Y, mass
         P2 = Particle(POS[2], POS[3], m)
@@ -115,7 +116,7 @@ av_x = np.array(av_x)
 #print(av_x)
 
 #matrix = av_x.reshape(len(spring_coefficient),len(mass))
-matrix = av_x.reshape(len(a3R),len(spring_coefficient))
+matrix = av_x.reshape(len(spring_coefficient),len(damping_coefficient))
 
 
 fig = plt.figure()
@@ -126,13 +127,13 @@ cb.set_label('Average velocity along X-axis (mm/s)', size=16)
 
 # labels_x = mass
 # loc_x = np.array(range(0,len(mass)))
-labels_x = a3R
-loc_x = np.array(range(0,len(a3R)))
+labels_x = spring_coefficient
+loc_x = np.array(range(0,len(spring_coefficient)))
 
 
 
-labels_y = spring_coefficient
-loc_y = np.array(range(0,len(spring_coefficient)))
+labels_y = damping_coefficient
+loc_y = np.array(range(0,len(damping_coefficient)))
 
 
 
@@ -140,10 +141,10 @@ loc_y = np.array(range(0,len(spring_coefficient)))
 plt.xticks(loc_y, labels_y, size=16)
 plt.yticks(loc_x, labels_x, size=16)
 # plt.xlabel("k (N/mm)")
-plt.xlabel("k (N/mm)", size=16)
+plt.xlabel("b N/(mm/s)", size=16)
 
 
-plt.ylabel("a3", size=16)
+plt.ylabel("k (N/mm)", size=16)
 
 
 ax.xaxis.set_major_locator(ticker.MultipleLocator(2))
